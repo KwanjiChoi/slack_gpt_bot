@@ -1,0 +1,29 @@
+org: kwanjichoi
+app: gpt-lambda
+service: gpt-lambda
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ap-northeast-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action: 
+              - "lambda:InvokeFunction"
+              - "lambda:GetFunction"
+          Resource: "*"
+
+plugins:
+  - serverless-python-requirements
+  - serverless-dotenv-plugin
+functions:
+  gpt:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: /slack/events
+          method: post
