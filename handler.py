@@ -4,6 +4,8 @@ from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 import openai
 import time
+import boto3
+from llama_index import GPTSimpleVectorIndex, download_loader
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
