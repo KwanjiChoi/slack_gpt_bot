@@ -1,7 +1,9 @@
+import logging
 import os
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 import openai
+import time
 
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
@@ -11,12 +13,14 @@ app = App(
     signing_secret=os.environ["SLACK_SIGNING_SECRET"]
 )
 
-# Run event when mention chatBot
-@app.event("app_mention")
+def acknowledge(ack):
+    # Acknowledge a request within 3 seconds, to prevent Slack from retrying the request.
+    ack()
 # Arg name should be event when use event method
 def reply(event, say):
 
-    print(event)
+    # Sleep 3 sec for lazy listeners
+    time.sleep(3)
 
     question = event['text']
     # Get slack thread ID
@@ -32,9 +36,17 @@ def reply(event, say):
     gpt_answer = response.choices[0]["message"]["content"].strip()
     say(gpt_answer, thread_ts=thread)
 
+
 @app.event("message")
 def handle_message_events(body, logger):
     logger.info(body)
+
+# Run event when mention chatBot
+app.event(event="app_mention")(ack=acknowledge, lazy=[reply])
+
+# Clear the default log handler, and set up a basic one; CloudWatch will add timestamps automatically.
+SlackRequestHandler.clear_all_log_handlers()
+logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
 def handler(event, context):
     slack_handler = SlackRequestHandler(app=app)
