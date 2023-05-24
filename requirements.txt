@@ -2,3 +2,5 @@ slack_bolt
 python-lambda
 python-dotenv
 openai
+llama-index
+boto3
