@@ -19,7 +19,17 @@ provider:
 
 plugins:
   - serverless-python-requirements
+  # Set env variables from .env file
   - serverless-dotenv-plugin
+
+# for Non-pure python packages like pynum
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    dockerFile: Dockerfile
+    slim: true
+    zip: true
+
 functions:
   gpt:
     handler: handler.handler

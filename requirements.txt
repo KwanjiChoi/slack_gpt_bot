@@ -1,6 +1,7 @@
 slack_bolt
-python-lambda
-python-dotenv
 openai
+python-lambda
 llama-index
-boto3
+# Temporary set version for issue: https://github.com/boto/boto3/issues/3648
+boto3==1.26.63
+botocore==1.29.63
