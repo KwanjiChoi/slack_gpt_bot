@@ -33,6 +33,7 @@ custom:
 functions:
   gpt:
     handler: handler.handler
+    timeout: 29
     events:
       - httpApi:
           path: /slack/events
