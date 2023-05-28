@@ -11,11 +11,14 @@ provider:
   iam:
     role:
       statements:
-        - Effect: "Allow"
+        - Effect: 'Allow'
           Action: 
-              - "lambda:InvokeFunction"
-              - "lambda:GetFunction"
-          Resource: "*"
+              - 'lambda:InvokeFunction'
+              - 'lambda:GetFunction'
+              - 's3:PutObject'
+              - 's3:GetObject'
+              - 's3:ListBucket'
+          Resource: '*'
 
 plugins:
   - serverless-python-requirements
@@ -33,6 +36,7 @@ custom:
 functions:
   gpt:
     handler: handler.handler
+    ephemeralStorageSize: 10240
     timeout: 29
     events:
       - httpApi:
