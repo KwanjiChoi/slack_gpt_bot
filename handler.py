@@ -36,7 +36,6 @@ os.remove('/tmp/vector_store.json')
 query_engine = index.as_query_engine(
     similarity_top_k=2
 )
-
 ### Set up index file and loader to here
 
 app = App(
@@ -60,7 +59,7 @@ def reply(event, say):
     # Get slack thread ID
     thread = event['ts']
 
-    answer = query_engine.query(question)
+    answer = str(query_engine.query(question))
     say(answer, thread_ts=thread)
 
 # Run event when mention chatBot
