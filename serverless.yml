@@ -33,6 +33,7 @@ custom:
 functions:
   gpt:
     handler: handler.handler
+    ephemeralStorageSize: 10240
     timeout: 29
     events:
       - httpApi:
